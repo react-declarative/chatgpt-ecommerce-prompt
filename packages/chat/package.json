@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.mjs",
+    "postinstall": "node ./scripts/postinstall.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chromadb": "1.8.1",
+    "chromadb-default-embed": "^2.13.2",
+    "gpt4all": "4.0.0",
+    "micro": "10.0.1"
+  }
+}

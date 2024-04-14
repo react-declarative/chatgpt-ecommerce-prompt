@@ -1,7 +1,14 @@
-import { Add, Delete } from "@mui/icons-material";
+import { useEffect } from "react";
+
 import { Box } from "@mui/material";
-import { Breadcrumbs2, Breadcrumbs2Type, Grid, IBreadcrumbs2Option, IGridAction, IGridColumn, fetchApi, iterateDocuments, last, useAsyncAction, useOffsetPaginator, useSubject } from "react-declarative";
+import { Breadcrumbs2, Breadcrumbs2Type, Grid, IBreadcrumbs2Option, IGridAction, IGridColumn, fetchApi, useAsyncAction, useChangeSubject, useOffsetPaginator, useSubject } from "react-declarative";
+
+import FilterRow from "./FilterRow";
+
 import useProductModal from "../hooks/useProductModal";
+import useFitlerContext from "../context/FilterContext";
+
+import { Add, Delete } from "@mui/icons-material";
 
 const columns: IGridColumn[] = [
     {
@@ -52,19 +59,15 @@ const remove = async (id: number) => {
 
 const options: IBreadcrumbs2Option[] = [
     {
-        type: Breadcrumbs2Type.Link,
-        label: 'GPT4-AI'
-    },
-    {
-        type: Breadcrumbs2Type.Link,
-        label: 'Product list',
+        type: Breadcrumbs2Type.Component,
+        element: FilterRow,
     },
     {
         type: Breadcrumbs2Type.Button,
         label: 'Add product',
         action: 'add-action',
         icon: Add,
-    }
+    },
 ];
 
 const actions: IGridAction[] = [
@@ -77,6 +80,10 @@ const actions: IGridAction[] = [
 
 export const App = () => {
 
+    const [filterData] = useFitlerContext();
+
+    const filterChanged = useChangeSubject(filterData);
+
     const reloadSubject = useSubject<void>();
 
     const { data, hasMore, loading, onSkip } = useOffsetPaginator({
@@ -86,10 +93,21 @@ export const App = () => {
             url.searchParams.set('limit', limit.toString());
             url.searchParams.set('_sort', 'id');
             url.searchParams.set('_order', 'desc');
+            Object.entries(filterData).forEach(([key, value]) => {
+                if (key === "id") {
+                    value && url.searchParams.set(key, String(value));
+                    return;
+                }
+                value && url.searchParams.set(`${key}_like`, String(value));
+            });
             return await fetchApi(url);
         },
         reloadSubject,
     });
+
+    useEffect(() => filterChanged.subscribe(() => {
+        reloadSubject.next();
+    }), []);
 
     const { pickData, render } = useProductModal();
 
@@ -108,7 +126,6 @@ export const App = () => {
             await reloadSubject.next();
         }
     };
-
 
     const { execute: handleOpen } = useAsyncAction(async (id: number) => {
         const isChanged = await pickData(id);

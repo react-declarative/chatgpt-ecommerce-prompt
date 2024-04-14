@@ -5,6 +5,8 @@ import fs from 'fs';
 
 const DATABASE_ID =  uuid();
 
+console.log('Initializing model');
+
 const model = await loadModel("Nous-Hermes-2-Mistral-7B-DPO.Q4_0.gguf");
 
 const chroma = new ChromaClient({ path: "http://localhost:8000" });
@@ -84,4 +86,6 @@ export const execute = async (question) => {
 
 }
 
-
+process.on('beforeExit', () => {
+    model.dispose();
+});

@@ -1,13 +1,12 @@
-import React from 'react';
-
 import { createRoot } from 'react-dom/client';
 
+import { Box, CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 import { ModalProvider, SnackProvider, OneConfig } from 'react-declarative';
 
 import App from './components/App'
-import { Box, CssBaseline } from '@mui/material';
+
+import { FilterContextProvider } from './context/FilterContext';
 
 const theme = createTheme({
     palette: {
@@ -32,21 +31,25 @@ const theme = createTheme({
 
 const container = document.getElementById('root')!;
 
+const INITIAL_STATE = {};
+
 const wrappedApp = (
-    <ThemeProvider theme={theme}>
-        <ModalProvider>
-            <SnackProvider>
-                <Box
-                    sx={{
-                        p: 1,
-                    }}
-                >
-                    <CssBaseline />
-                    <App />
-                </Box>
-            </SnackProvider>
-        </ModalProvider>
-    </ThemeProvider>
+    <FilterContextProvider initialState={INITIAL_STATE}>
+        <ThemeProvider theme={theme}>
+            <ModalProvider>
+                <SnackProvider>
+                    <Box
+                        sx={{
+                            p: 1,
+                        }}
+                    >
+                        <CssBaseline />
+                        <App />
+                    </Box>
+                </SnackProvider>
+            </ModalProvider>
+        </ThemeProvider>
+    </FilterContextProvider>
 );
 
 OneConfig.setValue({

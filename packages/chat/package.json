@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node test.mjs",
+    "start": "node test.mjs",
+    "test": "node --inspect-brk test.mjs",
     "postinstall": "node ./scripts/postinstall.mjs"
   },
   "keywords": [],
@@ -12,8 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "chromadb": "1.8.1",
-    "chromadb-default-embed": "^2.13.2",
+    "chromadb-default-embed": "2.13.2",
     "gpt4all": "4.0.0",
-    "micro": "10.0.1"
+    "micro": "10.0.1",
+    "uuid": "9.0.1"
   }
 }

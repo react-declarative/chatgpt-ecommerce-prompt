@@ -1,15 +1,15 @@
-import { createCompletion, loadModel, createEmbedding } from "gpt4all";
+import { createCompletion, loadModel } from "gpt4all";
 import { ChromaClient } from 'chromadb'
+import { v4 as uuid } from 'uuid';
 import fs from 'fs';
 
 const model = await loadModel("Nous-Hermes-2-Mistral-7B-DPO.Q4_0.gguf");
 
 const chroma = new ChromaClient({ path: "http://localhost:8000" });
-const collection = await chroma.getOrCreateCollection({ name: "ai-db-2" });
+const collection = await chroma.getOrCreateCollection({ name: uuid() });
 
-
-const PRODUCT_DATA = JSON.parse(fs.readFileSync('./db/data.json').toString());
-const SYSTEM_PROMPT = fs.readFileSync('./PROMPT.txt').toString();
+const { data: PRODUCT_DATA } = JSON.parse(fs.readFileSync('../../db.json').toString());
+const SYSTEM_PROMPT = fs.readFileSync('../../PROMPT.txt').toString();
 
 const loadData = async () => {
     if (await collection.count()) {

@@ -29,6 +29,7 @@ const read = async (id: number) => {
 
 const create = async (id: number, data: Omit<IData, 'id'>) => {
     const url = new URL(`/api/data`, window.location.origin);
+    console.log(`CREATE id=${id}`, data);
     return await fetchApi<IData>(url, {
         method: 'POST',
         body: JSON.stringify({
@@ -40,6 +41,7 @@ const create = async (id: number, data: Omit<IData, 'id'>) => {
 
 const update = async (id: number, data: Omit<IData, 'id'>) => {
     const url = new URL(`/api/data/${id}`, window.location.origin);
+    console.log(`UPDATE id=${id}`, data);
     return await fetchApi<IData>(url, {
         method: 'PATCH',
         body: JSON.stringify(data),
@@ -75,11 +77,15 @@ const fields: TypedField[] = [
     },
     {
         type: FieldType.Text,
+        inputFormatterTemplate: '0000000000',
+        inputFormatterAllowed: /\d/,
         name: 'quantity',
         title: 'Quantity',
     },
     {
         type: FieldType.Text,
+        inputFormatterTemplate: '0000000000',
+        inputFormatterAllowed: /\d/,
         name: 'price',
         title: 'Price',
     },
@@ -109,6 +115,24 @@ export const useProductModal = () => {
             }
             await resultSubject.next(!!data);
             return true;
+        },
+        readTransform: (value, name) => {
+            if (name === 'quantity') {
+                return String(value || "");
+            }
+            if (name === 'price') {
+                return String(value || "");
+            }
+            return value;
+        },
+        writeTransform: (value, name) => {
+            if (name === 'quantity') {
+                return parseInt(value as string) || 0;
+            }
+            if (name === 'price') {
+                return parseInt(value as string) || 0;
+            }
+            return value;
         },
         fields,
         handler: () => data.current,

@@ -84,6 +84,8 @@ export const App = () => {
             const url = new URL('/api/data', window.location.origin);
             url.searchParams.set('start', offset.toString());
             url.searchParams.set('limit', limit.toString());
+            url.searchParams.set('_sort', 'id');
+            url.searchParams.set('_order', 'desc');
             return await fetchApi(url);
         },
         reloadSubject,

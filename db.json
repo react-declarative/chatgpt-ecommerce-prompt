@@ -1,17 +1,6 @@
 {
   "data": [
     {
-      "id": 15,
-      "title": "1Accu-Chek Active Glucometer Test Strips Box Of 50",
-      "brand": "Accu-Chek",
-      "category": "machine",
-      "details": "The blood sugar levels in your body can be easily checked with Accu-Chek Active Strips. These are tested for accuracy, are easy to use daily and no manual coding is required. You can simply insert a test strip, collect a small blood sample on it, allow it to get absorbed and read your blood glucose result from the display. Accu-Chek Glucometer Test Strips can be used by patients suffering from Type 1 and Type 2 diabetes.  You must not use the Accu-Chek Instant Glucometer Strips beyond the expiry date given on the pack. Accu-Chek Active allows you to double-check and verify the displayed result after your test.",
-      "tags": "Accu-Chek Active Glucometer Test Strips Box Of 50 , machine ,blood glucose test strips",
-      "image": "Strips.jpg",
-      "quantity": 50,
-      "price": "800"
-    },
-    {
       "id": 18,
       "title": "Omron Blood Pressure Monitor HEM-7121J",
       "brand": "Omron",
@@ -19,7 +8,7 @@
       "details": "Omran B.P Monitor Hem-7121J is an automatic Blood Pressure monitoring device that is made with IntelliSense Technology for the comfortability of patient’s use. It indicates OK when the user wraps the cuff, ensuring that the right amount of pressure is applied to generate accurate and faster results. Now get precise and consistent measurements at your home so you can keep a track of your health easily.",
       "tags": "Omron Blood Pressure Monitor HEM-7121J , check",
       "image": "Blood Pressure.jpg",
-      "quantity": 49,
+      "quantity": 0,
       "price": 1759
     },
     {

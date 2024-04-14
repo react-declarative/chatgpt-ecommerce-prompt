@@ -1,6 +1,7 @@
-import { Add } from "@mui/icons-material";
-import { Box, Paper } from "@mui/material";
-import { Breadcrumbs2, Breadcrumbs2Type, Grid, IBreadcrumbs2Option, IGridColumn, fetchApi, last, useOffsetPaginator } from "react-declarative";
+import { Add, Delete } from "@mui/icons-material";
+import { Box } from "@mui/material";
+import { Breadcrumbs2, Breadcrumbs2Type, Grid, IBreadcrumbs2Option, IGridAction, IGridColumn, fetchApi, iterateDocuments, last, useAsyncAction, useOffsetPaginator, useSubject } from "react-declarative";
+import useProductModal from "../hooks/useProductModal";
 
 const columns: IGridColumn[] = [
     {
@@ -42,17 +43,12 @@ const columns: IGridColumn[] = [
     },
 ];
 
-/*
-"title": "Limcee Vitamin C 500 mg Orange Flavour Chewable, 15 Tablets",
-            "brand": "ABBOTT",
-            "category": "medicine",
-            "details": "Limcee Vitamin C 500 mg Orange Flavour Chewable, 15 Tablets belongs to a class of medicines called nutritional supplements used to prevent and treat nutritional deficiencies and vitamin C deficiency. A nutritional deficiency occurs when the body does not absorb or get enough nutrients from food. Vitamins and minerals are necessary for body development and the prevention of diseases.",
-            "tags": "Limcee Vitamin C 500 mg Orange Flavour Chewable, 15 Tablets",
-            "image": "Limcee Vitamin C 500 mg Orange Flavour Chewable, 15 Tablets.jpeg",
-            "quantity": 49,
-            "price": 20
-
-*/
+const remove = async (id: number) => {
+    const url = new URL(`/api/data/${id}`, window.location.origin);
+    return await fetchApi(url, {
+        method: 'DELETE'
+    });
+};
 
 const options: IBreadcrumbs2Option[] = [
     {
@@ -71,7 +67,17 @@ const options: IBreadcrumbs2Option[] = [
     }
 ];
 
+const actions: IGridAction[] = [
+    {
+        action: 'remove-action',
+        label: 'Remove',
+        icon: Delete,
+    }
+];
+
 export const App = () => {
+
+    const reloadSubject = useSubject<void>();
 
     const { data, hasMore, loading, onSkip } = useOffsetPaginator({
         handler: async (limit, offset) => {
@@ -80,12 +86,40 @@ export const App = () => {
             url.searchParams.set('limit', limit.toString());
             return await fetchApi(url);
         },
+        reloadSubject,
+    });
+
+    const { pickData, render } = useProductModal();
+
+    const handleAction = async (action: string) => {
+        if (action === "add-action") {
+            const isChanged = await pickData();
+            if (isChanged) {
+                await reloadSubject.next();
+            }
+        }
+    };
+
+    const handleRowAction = async (action: string, id: number) => {
+        if (action === "remove-action") {
+            await remove(id);
+            await reloadSubject.next();
+        }
+    };
+
+
+    const { execute: handleOpen } = useAsyncAction(async (id: number) => {
+        const isChanged = await pickData(id);
+        if (isChanged) {
+            await reloadSubject.next();
+        }
     });
 
     return (
         <>
             <Breadcrumbs2
                 items={options}
+                onAction={handleAction}
             />  
             <Grid
                 outlinePaper
@@ -98,7 +132,11 @@ export const App = () => {
                 hasMore={hasMore}
                 loading={loading}
                 onSkip={onSkip}
+                onRowClick={async ({ id }) => handleOpen(id)}
+                onRowAction={async (action, { id }) => await handleRowAction(action, id)}
+                rowActions={actions}
             />
+            {render()}
         </>
 
     );

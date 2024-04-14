@@ -25,8 +25,9 @@ export default defineConfig({
   server: {
     hmr: false,
     proxy: {
-      "/api/data": {
-        target: "http://localhost:3001/data",
+      "/api": {
+        target: "http://localhost:3001",
+        rewrite: path => path.replace(/^\/api/, ''),
         changeOrigin: true,
         secure: false,
       },

@@ -9,7 +9,7 @@ const chroma = new ChromaClient({ path: "http://localhost:8000" });
 const collection = await chroma.getOrCreateCollection({ name: uuid() });
 
 const { data: PRODUCT_DATA } = JSON.parse(fs.readFileSync('../../db.json').toString());
-const SYSTEM_PROMPT = fs.readFileSync('../../PROMPT.txt').toString();
+const CONTEXT_PROMPT = fs.readFileSync('../../PROMPT.txt').toString();
 
 const loadData = async () => {
     if (await collection.count()) {
@@ -42,7 +42,7 @@ const getChat = (() => {
         if (!chat) {
             chat = await model.createChatSession({
                 temperature: 0.8,
-                systemPrompt: `### System:\n${SYSTEM_PROMPT}\n\n`,
+                systemPrompt: `### System:\nMake the client buy the product\n\n`,
             });
         }
         return chat;
@@ -60,6 +60,7 @@ export const execute = async (question) => {
     const chat = await getChat();
 
     const prompt = [
+        `${CONTEXT_PROMPT}`,
         `Question:`,
         `=========`,
         `${question}`,

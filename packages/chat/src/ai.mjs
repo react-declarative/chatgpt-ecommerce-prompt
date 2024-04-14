@@ -3,18 +3,23 @@ import { ChromaClient } from 'chromadb'
 import { v4 as uuid } from 'uuid';
 import fs from 'fs';
 
+const DATABASE_ID =  uuid();
+
 const model = await loadModel("Nous-Hermes-2-Mistral-7B-DPO.Q4_0.gguf");
 
 const chroma = new ChromaClient({ path: "http://localhost:8000" });
-const collection = await chroma.getOrCreateCollection({ name: uuid() });
+const collection = await chroma.getOrCreateCollection({ name: DATABASE_ID });
 
 const { data: PRODUCT_DATA } = JSON.parse(fs.readFileSync('../../db.json').toString());
 const CONTEXT_PROMPT = fs.readFileSync('../../PROMPT.txt').toString();
 
 const loadData = async () => {
+    console.log(`Using database ${DATABASE_ID}`);
     if (await collection.count()) {
+        console.log('Ready');
         return;
     }
+    console.log('Uploading documents');
     const ids = [];
     const documents = [];
     const metadatas = [];
@@ -32,6 +37,7 @@ const loadData = async () => {
         console.error(result.error);
         throw new Error();
     }
+    console.log('Ready');
 }
 
 await loadData();
@@ -55,7 +61,7 @@ export const execute = async (question) => {
         queryTexts: [question],
       });
 
-    const context = queryData.metadatas.length ? queryData.documents.slice(0, 3).map((value, idx) => `Product number ${idx + 1} description: ${value}\n`): [nothingFound];
+    const context = queryData.metadatas.length ? queryData.documents.slice(0, 10).map((value, idx) => `Product number ${idx + 1} description: ${value}\n`): [nothingFound];
 
     const chat = await getChat();
 

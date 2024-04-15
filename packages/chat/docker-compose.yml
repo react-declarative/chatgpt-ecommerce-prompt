@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  app:
+    platform: linux/x86_64
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      sh -c "cd packages/chat && npm install && npm start"
+    volumes:
+      - "../../:/app"
+    depends_on:
+      - chromadb
+  chromadb:
+    image: chromadb/chroma
+    ports:
+      - "8000:8000"

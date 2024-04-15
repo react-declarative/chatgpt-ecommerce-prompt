@@ -55,3 +55,13 @@ Recommend THE ONLY ONE PRODUCT. If user ask you if you ever used some products s
 > Products can be filtered by several criteria
 
 ![screenshot](./docs/screenshot3.png)
+
+## Also
+
+Make sure you have installed [tools for native modules](https://www.npmjs.com/package/windows-build-tools)
+
+![screenshot](./docs/screenshot7.png)
+
+Reinstall NodeJS with this checkbox if you have not installed them
+
+![screenshot](./docs/screenshot6.png)

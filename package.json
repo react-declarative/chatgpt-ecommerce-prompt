@@ -7,7 +7,8 @@
     "start:jsonserver": "json-server --watch db.json --port 3001",
     "start:frontend": "cd ./packages/frontend && npm start",
     "start:chromadb": "docker run -p 8000:8000 chromadb/chroma",
-    "start:chatgpt": "cd ./packages/chat && npm start"
+    "start:chatgpt": "cd ./packages/chat && npm start",
+    "start:chatgpt:docker": "cd ./packages/chat && npm run start:docker"
   },
   "keywords": [],
   "author": "",

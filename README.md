@@ -6,7 +6,7 @@
 
 ## Setup
 
-Install [Docker](https://www.docker.com/). Launch the [postinstall](./scripts/postinstall.sh) script or run `npm install` in [the root](./package.json), [packages/chat](./packages/chat/package.json) and [packages/frontend](./packages/frontend/package.json) dictionaries.
+Install [Docker](https://www.docker.com/). Launch the [postinstall](./scripts/postinstall.sh) script or run `npm install` in [the root](./package.json), the [packages/chat](./packages/chat/package.json) and the [packages/frontend](./packages/frontend/package.json) dictionaries.
 
 ```bash
 dos2unix ./scripts/postinstall.sh

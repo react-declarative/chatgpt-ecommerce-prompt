@@ -76,3 +76,4 @@ Reinstall NodeJS with this checkbox if you have not installed them
 ![screenshot](./docs/screenshot6.png)
 
 If you won't to reinstall, try running `choco install python;visualstudio2019-workload-vctools` for NodeJS 20.12.1
+It requires [Chocolatey](https://chocolatey.org/) package manager

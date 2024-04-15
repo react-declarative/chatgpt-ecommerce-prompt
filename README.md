@@ -4,9 +4,18 @@
 
 ![screenshot](./docs/screenshot5.png)
 
+## Setup
+
+Install [Docker](https://www.docker.com/). Launch the [postinstall](./scripts/postinstall.sh) script or run `npm install` in [the root](./package.json), [packages/chat](./packages/chat/package.json) and [packages/frontend](./packages/frontend/package.json) dictionaries.
+
+```bash
+dos2unix ./scripts/postinstall.sh
+sh ./scripts/postinstall.sh
+```
+
 ## Usage
 
-1. Run ChromeDB in [Docker](https://www.docker.com/) container
+1. Run ChromeDB in the Docker container
 
 ```bash
 docker run -p 8000:8000 chromadb/chroma

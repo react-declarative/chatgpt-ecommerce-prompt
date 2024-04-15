@@ -57,7 +57,7 @@ const fields: TypedField[] = [
 export const FilterRow = () => {
     const [filterData, setFilterData] = useFitlerContext();
     return (
-        <Stack direction="row" alignItems="center" gap={1}>
+        <Stack direction="row" alignItems="center" gap={2}>
             <Breadcrumbs>
                 <Link underline="hover" color="inherit" href="#">
                     AI
@@ -78,8 +78,11 @@ export const FilterRow = () => {
                         setFilterData(data)
                     }
                 }}
+                startIcon={
+                    <FilterAltOutlined />
+                }
             >
-                <FilterAltOutlined />
+                Filters
             </OneButton>
         </Stack>
     );

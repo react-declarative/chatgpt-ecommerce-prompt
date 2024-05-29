@@ -4,6 +4,11 @@
 
 ![screenshot](./docs/screenshot5.png)
 
+## Contribute
+
+> [!IMPORTANT]
+> There is made by using [react-declarative](https://github.com/react-declarative/react-declarative) to solve your problems. **⭐Star** and **💻Fork** It on github will be appreciated
+
 ## Setup
 
 Install [Docker](https://www.docker.com/). Launch the [postinstall](./scripts/postinstall.sh) script or run `npm install` in [the root](./package.json), the [packages/chat](./packages/chat/package.json) and the [packages/frontend](./packages/frontend/package.json) dictionaries.
